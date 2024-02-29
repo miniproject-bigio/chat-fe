@@ -1,9 +1,10 @@
 "use client"
 
-import { useQuery } from "react-query"
+import { io } from "socket.io-client"
 import { useEffect, useState } from "react"
+import { useQuery } from "react-query"
 
-export default function DataUser() {
+export default function SocketIO() {
   const [uuid, setUuid] = useState<string | null>(null)
   const [isLoadingDelayed, setIsLoadingDelayed] = useState(true)
 
@@ -24,19 +25,25 @@ export default function DataUser() {
     enabled: !isLoadingDelayed,
   })
 
-  if (isLoading) return "Loading..."
+  useEffect(() => {
+    if (!isLoading && !error && data) {
+      const newSocket = io("http://localhost:3000")
 
-  if (error) return "An error has occurred: " + error
+      newSocket.on("connect", () => {
+        console.log("Connected to server")
+      })
 
-  return (
-    <>
-      {data && (
-        <div>
-          <p>ID: {data.id}</p>
-          <p>Username: {data.username}</p>
-          <p>isAdmin: {data.isAdmin}</p>
-        </div>
-      )}
-    </>
-  )
+      newSocket.on("disconnect", () => {
+        console.log("Disconnected from server")
+      })
+
+      newSocket.emit("clientMessage", { user: data.username })
+
+      return () => {
+        newSocket.disconnect()
+      }
+    }
+  }, [isLoading, error, data])
+
+  return <></>
 }

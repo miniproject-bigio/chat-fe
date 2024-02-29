@@ -264,6 +264,18 @@
     "@react-types/overlays" "^3.8.3"
     "@react-types/shared" "^3.21.0"
 
+"@nextui-org/avatar@^2.0.24":
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/@nextui-org/avatar/-/avatar-2.0.24.tgz#6b4f25dff4766d6d9e05e60c8b93fca66a044dd0"
+  integrity sha512-3QUn8v61iNvAYogUbEDVnhDjBK6WBxxFYLp95a0H52zN0p2LHXe+UNwdGZYFo5QNWx6CHGH3vh2AHlLLy3WFSQ==
+  dependencies:
+    "@nextui-org/react-utils" "2.0.10"
+    "@nextui-org/shared-utils" "2.0.4"
+    "@nextui-org/use-image" "2.0.4"
+    "@react-aria/focus" "^3.14.3"
+    "@react-aria/interactions" "^3.19.1"
+    "@react-aria/utils" "^3.21.1"
+
 "@nextui-org/button@2.0.26":
   version "2.0.26"
   resolved "https://registry.yarnpkg.com/@nextui-org/button/-/button-2.0.26.tgz#006d29e7290b17ee267d200c006385e139c1cb69"
@@ -527,6 +539,18 @@
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@nextui-org/use-clipboard/-/use-clipboard-2.0.4.tgz#49439ca60368fc70711b4b3ded019c745f38f1ec"
   integrity sha512-rMcaX0QsolOJ1BQbp1T/FVsSPn2m0Ss4Z+bbdS7eM6EFKtJdVJWlpbrST0/kR2UcW1KWeK27NYmtNPF5+hgZMA==
+
+"@nextui-org/use-image@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@nextui-org/use-image/-/use-image-2.0.4.tgz#5b758355c948d445d0cd89b18177d3d37b683f57"
+  integrity sha512-tomOkrhlhTA45qA/MLh1YmiWVGgJ2KeM0qBSLP1ikVcppc/e9UtkIJjHIGdNCnHZTjoPEh53HzyJeUMlYUM9uw==
+  dependencies:
+    "@nextui-org/use-safe-layout-effect" "2.0.4"
+
+"@nextui-org/use-safe-layout-effect@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@nextui-org/use-safe-layout-effect/-/use-safe-layout-effect-2.0.4.tgz#92652ea61ab94abf494c98c581297769cc8f29e0"
+  integrity sha512-K7ppEhTfzdVOzbgKaNFEBi4HwRfQ8j+kRBQqsU5yo8bSM+5uv8OUy/mjpEf4i02PUDIBmsgJC4En9S537DXrwg==
 
 "@nextui-org/use-scroll-position@2.0.4":
   version "2.0.4"
