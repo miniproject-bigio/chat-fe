@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation"
 import { Button } from "@nextui-org/button"
 import { hasAccessToken } from "@/config/hasAccessToken"
 import { useEffect, useState } from "react"
-import { Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/avatar"
+import { Avatar } from "@nextui-org/avatar"
 
 export const Navbar = () => {
   const pathName = usePathname()
@@ -50,7 +50,7 @@ export const Navbar = () => {
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(linkStyles({ color: "foreground" }), {
-                  "text-blue-400 font-semibold": pathName === item.href,
+                  "text-blue-300 font-semibold": pathName === item.href,
                 })}
                 href={item.href}
               >
@@ -109,12 +109,19 @@ export const Navbar = () => {
           <p>Loading...</p>
         ) : isAuthenticated ? (
           <>
-            <Button fullWidth size="sm" onClick={handleDashboard}>
-              Dashboard
-            </Button>
-            <Button fullWidth color="primary" size="sm" onClick={handleSignOut}>
-              Sign Out
-            </Button>
+            <div className="flex justify-between">
+              <div className="flex justify-start gap-2">
+                <Link href="/dashboard">
+                  <Button onClick={handleDashboard} size="sm">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button color="danger" size="sm" onClick={handleSignOut}>
+                  Sign Out
+                </Button>
+              </div>
+              <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" className="w-8 h-8 text-tiny" />
+            </div>
           </>
         ) : (
           <>
@@ -126,6 +133,9 @@ export const Navbar = () => {
                 Login
               </Button>
             </Link>
+            <Link isExternal href={siteConfig.links.github} aria-label="Github">
+              <GithubIcon className="text-default-500" />
+            </Link>
           </>
         )}
         <div className="mx-4 mt-2 flex flex-col gap-2">
@@ -133,7 +143,7 @@ export const Navbar = () => {
             <NavbarMenuItem key={`${item}-${index}`}>
               <NextLink
                 className={clsx(linkStyles({ color: "foreground" }), {
-                  "text-blue-400 font-semibold": pathName === item.href,
+                  "text-blue-300 font-semibold": pathName === item.href,
                 })}
                 color="foreground"
                 href={item.href}
