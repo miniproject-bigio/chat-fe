@@ -6,29 +6,17 @@ import { useMutation } from "react-query"
 import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { useRouter } from "next/navigation"
-
-type LoginError = {
-  message: string
-}
-
-type LoginResponse = {
-  message: string
-  data: {
-    user: {
-      id: string
-      username: string
-    }
-    accessToken: string
-  }
-}
+import { useFormInput } from "@/hooks/useFormInput"
+import { AuthError, AuthResponse } from "@/types/auth"
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
-  const loginMutation = useMutation<LoginResponse, LoginError, void>(
+  const { value: username, onChange: onUsernameChange } = useFormInput("")
+  const { value: password, onChange: onPasswordChange } = useFormInput("")
+
+  const loginMutation = useMutation<AuthResponse, AuthError, void>(
     async () => {
       const response = await fetch("http://localhost:3001/v1/api/login", {
         method: "POST",
@@ -69,14 +57,14 @@ export default function LoginPage() {
   return (
     <>
       <p className="text-center font-semibold text-4xl">Login Page</p>
-      <Input className="mt-5" type="text" label="Username" placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)} />
+      <Input className="mt-5" type="text" label="Username" placeholder="Enter your username" value={username} onChange={onUsernameChange} />
       <Input
         className="mt-2"
         type={showPassword ? "text" : "password"}
         label="Password"
         placeholder="Enter your password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={onPasswordChange}
         endContent={
           <button className="text-gray-400" type="button" onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? <FaEye /> : <FaEyeSlash />}

@@ -5,17 +5,16 @@ import { Button } from "@nextui-org/button"
 import { useMutation } from "react-query"
 import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
-
-type LoginError = {
-  message: string
-}
+import { useFormInput } from "@/hooks/useFormInput"
+import { AuthError, AuthResponse } from "@/types/auth"
 
 export default function Register() {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  const loginMutation = useMutation<{}, LoginError, void>(
+  const { value: username, onChange: onUsernameChange } = useFormInput("")
+  const { value: password, onChange: onPasswordChange } = useFormInput("")
+
+  const loginMutation = useMutation<AuthResponse, AuthError, void>(
     async () => {
       const response = await fetch("http://localhost:3001/v1/api/register", {
         method: "POST",
@@ -49,14 +48,14 @@ export default function Register() {
   return (
     <>
       <p className="text-center font-semibold text-4xl">Register Page</p>
-      <Input className="mt-5" type="text" label="Username" placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)} />
+      <Input className="mt-5" type="text" label="Username" placeholder="Enter your username" value={username} onChange={onUsernameChange} />
       <Input
         className="mt-2"
         type={showPassword ? "text" : "password"}
         label="Password"
         placeholder="Enter your password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={onPasswordChange}
         endContent={
           <button className="text-gray-400" type="button" onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? <FaEye /> : <FaEyeSlash />}
