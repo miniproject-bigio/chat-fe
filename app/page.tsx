@@ -1,5 +1,11 @@
 import DataUser from "@/components/data-user"
 import SocketIO from "@/components/socket"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Chat Web | RH",
+  description: "Dashboard Page Chat Web. Build by Rizky Haksono",
+}
 
 export default function Home() {
   return (

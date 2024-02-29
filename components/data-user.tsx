@@ -15,14 +15,24 @@ export default function DataUser() {
 
     const delayTimeout = setTimeout(() => {
       setIsLoadingDelayed(false)
-    }, 1000)
+    }, 10)
 
     return () => clearTimeout(delayTimeout)
   }, [])
 
-  const { isLoading, error, data } = useQuery("userData", () => fetch(`http://localhost:3001/v1/api/user/${uuid}`).then((res) => res.json()), {
-    enabled: !isLoadingDelayed,
-  })
+  const { isLoading, error, data } = useQuery(
+    "userData",
+    async () => {
+      if (uuid) {
+        const res = await fetch(`http://localhost:3001/v1/api/user/${uuid}`)
+        return await res.json()
+      }
+      return Promise.resolve(null)
+    },
+    {
+      enabled: !isLoadingDelayed && !!uuid,
+    }
+  )
 
   if (isLoading) return "Loading..."
 
@@ -30,12 +40,20 @@ export default function DataUser() {
 
   return (
     <>
-      {data && (
+      {uuid ? (
         <div>
-          <p>ID: {data.id}</p>
-          <p>Username: {data.username}</p>
-          <p>isAdmin: {data.isAdmin}</p>
+          {data ? (
+            <>
+              <p>ID: {data.id}</p>
+              <p>Username: {data.username}</p>
+              <p>isAdmin: {data.isAdmin ? "true" : "false"}</p>
+            </>
+          ) : (
+            <p>Data not available.</p>
+          )}
         </div>
+      ) : (
+        <p>Login first.</p>
       )}
     </>
   )

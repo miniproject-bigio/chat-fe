@@ -1,5 +1,11 @@
 import ChatUser from "@/components/chat-user"
 import SocketIO from "@/components/socket"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Dashboard | RH",
+  description: "Dashboard Page Chat Web. Build by Rizky Haksono",
+}
 
 export default function DashboardPage() {
   return (

@@ -14,22 +14,63 @@ import { Button } from "@nextui-org/button"
 import { hasAccessToken } from "@/config/hasAccessToken"
 import { useEffect, useState } from "react"
 import { Avatar } from "@nextui-org/avatar"
+import { useMutation } from "react-query"
+
+type SignOut = {
+  userId: string
+}
 
 export const Navbar = () => {
   const pathName = usePathname()
   const [isLoading, setIsLoading] = useState(true)
+  const [uuid, setUuid] = useState<string | null>(null)
   const isAuthenticated = hasAccessToken()
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+    const storedUuid = localStorage.getItem("uuid")
+    if (storedUuid) {
+      setUuid(storedUuid)
+    }
 
-    return () => clearTimeout(timeoutId)
+    const delayTimeout = setTimeout(() => {
+      setIsLoading(false)
+    }, 10)
+
+    return () => clearTimeout(delayTimeout)
   }, [])
 
+  const signOutUser = useMutation<void, Error, SignOut>(
+    async ({ userId }) => {
+      const response = await fetch(`http://localhost:3001/v1/api/signout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Unknown error")
+      }
+    },
+    {
+      onSuccess: () => {
+        console.log(`Success to sign out`)
+      },
+      onError: () => {
+        console.log(`Failed to sign out`)
+      },
+    }
+  )
+
   const handleSignOut = () => {
-    console.log("sign out clicked")
+    if (uuid) {
+      localStorage.removeItem("uuid")
+      localStorage.removeItem("access_token")
+
+      signOutUser.mutate({ userId: uuid })
+    }
   }
 
   const handleDashboard = () => {

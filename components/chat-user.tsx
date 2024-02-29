@@ -13,20 +13,31 @@ type SendMessage = {
 
 export default function ChatUser() {
   const [uuid, setUuid] = useState<string | null>(null)
+  const [accessToken, setAccessToken] = useState<string | null>(null)
   const [isLoadingDelayed, setIsLoadingDelayed] = useState(true)
+  const [isChatActive, setIsChatActive] = useState(false)
   const [selectedUsername, setSelectedUsername] = useState<string | null>(null)
   const [newMessage, setNewMessage] = useState<string>("")
   const [socket, setSocket] = useState<Socket | null>(null)
 
   useEffect(() => {
     const storedUuid = localStorage.getItem("uuid")
+    const token = localStorage.getItem("access_token")
+
+    console.log(storedUuid)
+    console.log(token)
+
+    if (token) {
+      setAccessToken(token)
+    }
+
     if (storedUuid) {
       setUuid(storedUuid)
     }
 
     const delayTimeout = setTimeout(() => {
       setIsLoadingDelayed(false)
-    }, 1000)
+    }, 10)
 
     return () => clearTimeout(delayTimeout)
   }, [])
@@ -50,7 +61,24 @@ export default function ChatUser() {
     }
   }, [socket])
 
-  const { data: dataMessage, isLoading: loadingMessage, isError: errorMessage } = useQuery("chatUser", () => fetch(`http://localhost:3001/v1/api/message`).then((res) => res.json()))
+  const {
+    data: dataMessage,
+    isLoading: loadingMessage,
+    isError: errorMessage,
+  } = useQuery(
+    ["chatUser", isChatActive],
+    async () =>
+      fetch(`http://localhost:3001/v1/api/message`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then((res) => res.json()),
+    {
+      onError(err) {
+        console.log(err)
+      },
+    }
+  )
   const { data: dataUsers, isLoading: loadingUsers, isError: errorUsers } = useQuery("allUsers", () => fetch(`http://localhost:3001/v1/api/users`).then((res) => res.json()))
 
   const sendMessageMutation = useMutation<void, Error, SendMessage>(
@@ -85,6 +113,7 @@ export default function ChatUser() {
 
   const handleUsernameClick = (username: string) => {
     setSelectedUsername(username)
+    setIsChatActive(true)
   }
 
   const handleSendMessage = () => {
@@ -133,15 +162,15 @@ export default function ChatUser() {
           {selectedUsername ? (
             <>
               {dataMessage && (
-                <div>
+                <>
                   {dataMessage.map((message: any, index: number) => (
                     <div key={index} className={`flex ${message.sender === selectedUsername ? "justify-start" : "justify-end"}`}>
                       <div className={`max-w-xs mx-2 my-3 p-3 rounded-lg ${message.sender === selectedUsername ? "bg-[#dddddd] dark:bg-[#2b2b2b] text-foreground self-end" : "bg-blue-500/30 text-foreground"}`}>
-                        <span className={`text-[#47280b] font-bold dark:text-yellow-500 ${message.sender === selectedUsername ? "font-bold" : ""}`}>{message.sender}</span>: {message.content}
+                        <span className={`text-black font-bold dark:text-yellow-500 ${message.sender === selectedUsername ? "font-bold" : ""}`}>{message.sender}</span>: {message.content}
                       </div>
                     </div>
                   ))}
-                </div>
+                </>
               )}
               <div className="flex justify-between items-end p-3">
                 <input type="text" placeholder="Type your message..." value={newMessage} onChange={(e) => setNewMessage(e.target.value)} className="w-full p-2 rounded-md border border-gray-500 focus:outline-none focus:border-blue-500" />
@@ -151,7 +180,10 @@ export default function ChatUser() {
               </div>
             </>
           ) : (
-            <p className="flex justify-center items-center h-full font-normal text-lg">Welcome to the chat</p>
+            <div className="h-fit text-center items-center font-normal text-lg block">
+              <p className="text-foreground">Welcome to the chat</p>
+              <p className="text-foreground">Click on the profile to see the chat</p>
+            </div>
           )}
         </div>
       </div>
