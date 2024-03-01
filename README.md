@@ -6,11 +6,11 @@ A Mini Project from BIGIO.ID that interacts between the server and client using 
 
 This is dashboard chat dark mode.
 
-<image src="./public/dark-chat.png" />
+![Dark Mode](./public/dark-chat.png)
 
 This is dashboard chat light mode.
 
-<image src="./public/light-chat.png" />
+![Light Mode](./public/light-chat.png)
 
 ## Table of Contents
 
