@@ -4,6 +4,14 @@
 
 A Mini Project from BIGIO.ID that interacts between the server and client using [socket.io](https://socket.io/)
 
+This is dashboard chat dark mode.
+
+<image src="./public/dark-chat.png" />
+
+This is dashboard chat light mode.
+
+<image src="./public/light-chat.png" />
+
 ## Table of Contents
 
 - [Introduction](#introduction)
