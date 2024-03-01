@@ -1,40 +1,78 @@
-# Next.js & NextUI Template
+# Chat Web Frontend
 
-This is a template for creating applications using Next.js 13 (app directory) and NextUI (v2).
+## Introduction
 
-## Technologies Used
+A Mini Project from BIGIO.ID that interacts between the server and client using [socket.io](https://socket.io/)
 
-- [Next.js 13](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+## Table of Contents
 
-## How to Use
+- [Introduction](#introduction)
+- [Table of Contents](#table-of-contents)
+- [How to Run](#how-to-run)
+- [Libraries](#libraries)
+- [Project Structure](#project-structure)
 
-
-### Use the template with create-next-app
-
-To create a new project based on this template using `create-next-app`, run the following command:
-
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
-```
-
-### Install dependencies
+## How to Run
 
 ```bash
 npm install
-```
-
-### Run the development server
-
-```bash
 npm run dev
+# or
+yarn install
+yarn dev
+# or
+pnpm install
+pnpm dev
+# or
+bun install
+bun dev
 ```
 
-## License
+Port [http://localhost:3000](http://localhost:3000) for the socket.io to interact with backend and frontend.
 
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+Open [http://localhost:3002](http://localhost:3002) with your browser to see the result.
+
+You can start editing the page by modifying `/app/page.tsx`. The page auto-updates as you edit the file.
+
+## Libraries
+
+- nextui
+- autoprefixer
+- clsx
+- eslint
+- framer-motion
+- next
+- next-theme
+- pg
+- react
+- react-icons
+- react-query
+- socket.io-client
+- tailwindcss
+- typescript
+
+## Project Structure
+
+```basb
+├─app
+│  ├───auth
+│  │   ├───login
+│  │   │   └───page.tsx
+│  │   └───register
+│  │   │   └───page.tsx
+│  ├───dashboard
+│  │   └───page.tsx
+│  └──README.md
+├───components
+├───config
+├───hooks
+└───types
+```
+
+## Contributors
+
+[rizkyhaksono](https://github.com/rizkyhaksono)
+
+## LICENSE
+
+[MIT LICENSE](./LICENSE)
