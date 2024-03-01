@@ -2,6 +2,7 @@
 
 import { useQuery } from "react-query"
 import { useEffect, useState } from "react"
+import { useUserData } from "@/hooks/useUserData"
 
 export default function DataUser() {
   const [uuid, setUuid] = useState<string | null>(null)
@@ -40,13 +41,18 @@ export default function DataUser() {
 
   return (
     <>
+      <h1 className="mb-10 text-4xl font-extrabold leading-none text-center tracking-normal text-foreground md:text-6xl md:tracking-tight">
+        <span>Real-Time Connection&nbsp;</span>
+        <span className="leading-12 block w-full bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text py-2 text-transparent lg:inline">with Socket.IO</span>
+      </h1>
+
       {uuid ? (
         <div>
           {data ? (
             <>
-              <p>ID: {data.id}</p>
-              <p>Username: {data.username}</p>
-              <p>isAdmin: {data.isAdmin ? "true" : "false"}</p>
+              <p className="px-0 text-lg font-medium text-foreground md:text-xl lg:px-24">
+                Hello <span className="leading-12 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text py-2 text-transparent">{data.username}</span>
+              </p>
             </>
           ) : (
             <p>Data not available.</p>

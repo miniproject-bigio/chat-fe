@@ -7,14 +7,16 @@ import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { useFormInput } from "@/hooks/useFormInput"
 import { AuthError, AuthResponse } from "@/types/auth"
+import { useRouter } from "next/navigation"
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
 
   const { value: username, onChange: onUsernameChange } = useFormInput("")
   const { value: password, onChange: onPasswordChange } = useFormInput("")
 
-  const loginMutation = useMutation<AuthResponse, AuthError, void>(
+  const registerMutation = useMutation<AuthResponse, AuthError, void>(
     async () => {
       const response = await fetch("http://localhost:3001/v1/api/register", {
         method: "POST",
@@ -42,7 +44,9 @@ export default function Register() {
   )
 
   const handleSubmit = () => {
-    loginMutation.mutate()
+    registerMutation.mutate()
+
+    router.push("/auth/login")
   }
 
   return (
@@ -62,10 +66,10 @@ export default function Register() {
           </button>
         }
       />
-      <Button className="flex w-full mt-2" size="md" onClick={handleSubmit} isLoading={loginMutation.isLoading}>
+      <Button className="flex w-full mt-2" size="md" onClick={handleSubmit} isLoading={registerMutation.isLoading}>
         Submit
       </Button>
-      {loginMutation.isError && <p className="text-red-500">{loginMutation.error?.message || "Unknown error"}</p>}
+      {registerMutation.isError && <p className="text-red-500">{registerMutation.error?.message || "Unknown error"}</p>}
     </>
   )
 }

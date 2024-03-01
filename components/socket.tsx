@@ -6,17 +6,17 @@ import { useQuery } from "react-query"
 
 export default function SocketIO() {
   const [uuid, setUuid] = useState<string | null>(null)
+  const [accessToken, setAccessToken] = useState<string | null>(null)
   const [isLoadingDelayed, setIsLoadingDelayed] = useState(true)
 
   useEffect(() => {
     const storedUuid = localStorage.getItem("uuid")
-    if (storedUuid) {
-      setUuid(storedUuid)
-    }
+    const token = localStorage.getItem("access_token")
 
-    const delayTimeout = setTimeout(() => {
-      setIsLoadingDelayed(false)
-    }, 1000)
+    if (token) setAccessToken(token)
+    if (storedUuid) setUuid(storedUuid)
+
+    const delayTimeout = setTimeout(() => setIsLoadingDelayed(false), 10)
 
     return () => clearTimeout(delayTimeout)
   }, [])

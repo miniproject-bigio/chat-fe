@@ -10,7 +10,7 @@ export default function UsersList({ filteredUsers, handleUsernameClick, selected
             <div
               key={user.id}
               className={`flex items-center gap-2 px-2 py-4 mb-2 mr-5 bg-[#dddddd] dark:bg-[#2b2b2b] rounded-xl max-[640px]:w-fit max-[640px]:rounded-2xl max-[640px]:px-4 max-[640px]:h-14 ${
-                selectedUsername === user.username ? "bg-blue-500" : ""
+                selectedUsername === user.username ? "bg-blue-500 dark:bg-gray-500/25" : ""
               }`}
               onClick={() => handleUsernameClick(user.username)}
             >
