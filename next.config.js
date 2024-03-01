@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "api.dicebear.com",
       },
+      {
+        protocol: "https",
+        hostname: "ouch-cdn2.icons8.com",
+      },
     ],
   },
 }

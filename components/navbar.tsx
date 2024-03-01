@@ -15,16 +15,15 @@ import { hasAccessToken } from "@/config/hasAccessToken"
 import { useEffect, useState } from "react"
 import { Avatar } from "@nextui-org/avatar"
 import { useMutation } from "react-query"
-
-type SignOut = {
-  userId: string
-}
+import { useRouter } from "next/navigation"
+import { SignOut } from "@/types/sign-out"
 
 export const Navbar = () => {
   const pathName = usePathname()
   const [isLoading, setIsLoading] = useState(true)
   const [uuid, setUuid] = useState<string | null>(null)
   const isAuthenticated = hasAccessToken()
+  const router = useRouter()
 
   useEffect(() => {
     const storedUuid = localStorage.getItem("uuid")
@@ -70,6 +69,7 @@ export const Navbar = () => {
       localStorage.removeItem("access_token")
 
       signOutUser.mutate({ userId: uuid })
+      router.push("/")
     }
   }
 

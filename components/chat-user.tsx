@@ -6,6 +6,7 @@ import ChatMessages from "./chat-messages"
 import UsersList from "./users-list"
 import { io, Socket } from "socket.io-client"
 import { SendMessage } from "@/types/send-message"
+import { useUserData } from "@/hooks/useUserData"
 
 export default function ChatUser() {
   const [uuid, setUuid] = useState<string | null>(null)
@@ -115,6 +116,11 @@ export default function ChatUser() {
     }
   }
 
+  const { isLoading, data: userLogged, error } = useUserData(uuid === null ? "" : uuid, accessToken === null ? "" : accessToken)
+
+  if (isLoading) return "Loading..."
+  if (error) return "An error has occurred: " + error
+
   const filteredUsers = dataUsers?.data.filter((user: any) => user.id !== uuid)
 
   if (loadingMessage) return "Fetching messages..."
@@ -126,7 +132,16 @@ export default function ChatUser() {
   return (
     <div className="grid grid-cols-2 max-[640px]:grid-cols-1 mb-10">
       <UsersList filteredUsers={filteredUsers} handleUsernameClick={handleUsernameClick} selectedUsername={selectedUsername} uuid={uuid} />
-      <ChatMessages selectedUsername={selectedUsername} dataMessage={dataMessage} newMessage={newMessage} setNewMessage={setNewMessage} handleSendMessage={handleSendMessage} loadingMessage={loadingMessage} errorMessage={errorMessage} />
+      <ChatMessages
+        selectedUsername={selectedUsername}
+        dataMessage={dataMessage}
+        newMessage={newMessage}
+        setNewMessage={setNewMessage}
+        handleSendMessage={handleSendMessage}
+        loadingMessage={loadingMessage}
+        errorMessage={errorMessage}
+        userLogged={userLogged}
+      />
     </div>
   )
 }
