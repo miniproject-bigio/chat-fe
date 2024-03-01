@@ -17,10 +17,13 @@ import { Avatar } from "@nextui-org/avatar"
 import { useMutation } from "react-query"
 import { useRouter } from "next/navigation"
 import { SignOut } from "@/types/sign-out"
+import { useUserData } from "@/hooks/useUserData"
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem } from "@nextui-org/dropdown"
 
 export const Navbar = () => {
   const pathName = usePathname()
   const [isLoading, setIsLoading] = useState(true)
+  const [accessToken, setAccessToken] = useState<string | null>(null)
   const [uuid, setUuid] = useState<string | null>(null)
   const isAuthenticated = hasAccessToken()
   const router = useRouter()
@@ -62,6 +65,8 @@ export const Navbar = () => {
       },
     }
   )
+
+  const { isLoading: loadingUser, data: userLogged, error } = useUserData(uuid === null ? "" : uuid, accessToken === null ? "" : accessToken)
 
   const handleSignOut = () => {
     if (uuid) {
@@ -116,7 +121,24 @@ export const Navbar = () => {
               <Button color="danger" size="sm" onClick={handleSignOut}>
                 Sign Out
               </Button>
-              <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" className="w-8 h-8 text-tiny" />
+              <Dropdown>
+                <DropdownTrigger>
+                  <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" className="w-8 h-8 text-tiny" />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  <DropdownItem key="profile">
+                    {loadingUser ? (
+                      <p>Loading...</p>
+                    ) : (
+                      <>
+                        <p>
+                          Hi <span className="font-bold">{userLogged?.username}</span>
+                        </p>
+                      </>
+                    )}
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </>
           ) : (
             <>
