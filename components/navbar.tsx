@@ -107,14 +107,14 @@ export const Navbar = () => {
         </ul>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
+      <NavbarContent justify="end">
         <NavbarItem className="hidden sm:flex gap-2">
           {isLoading ? (
             <p>Loading...</p>
           ) : isAuthenticated ? (
             <>
               <Link href="/dashboard">
-                <Button fullWidth onClick={handleDashboard} size="sm">
+                <Button onClick={handleDashboard} size="sm">
                   Dashboard
                 </Button>
               </Link>
@@ -183,23 +183,39 @@ export const Navbar = () => {
                   Sign Out
                 </Button>
               </div>
-              <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" className="w-8 h-8 text-tiny" />
+              <Dropdown>
+                <DropdownTrigger>
+                  <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" className="w-8 h-8 text-tiny" />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  <DropdownItem key="profile">
+                    {loadingUser ? (
+                      <p>Loading...</p>
+                    ) : (
+                      <>
+                        <p>
+                          Hi <span className="font-bold">{userLogged?.username}</span>
+                        </p>
+                      </>
+                    )}
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </div>
           </>
         ) : (
-          <>
+          <div className="flex gap-2 justify-start items-center w-full">
             <Link href="/auth/register">
-              <Button size="sm">Sign Up</Button>
+              <Button className="w-full" size="sm">
+                Sign Up
+              </Button>
             </Link>
             <Link href="/auth/login">
               <Button color="primary" size="sm">
                 Login
               </Button>
             </Link>
-            <Link isExternal href={siteConfig.links.github} aria-label="Github">
-              <GithubIcon className="text-default-500" />
-            </Link>
-          </>
+          </div>
         )}
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (

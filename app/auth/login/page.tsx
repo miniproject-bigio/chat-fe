@@ -57,23 +57,25 @@ export default function LoginPage() {
   return (
     <>
       <p className="text-center font-semibold text-4xl">Login Page</p>
-      <Input className="mt-5" type="text" label="Username" placeholder="Enter your username" value={username} onChange={onUsernameChange} />
-      <Input
-        className="mt-2"
-        type={showPassword ? "text" : "password"}
-        label="Password"
-        placeholder="Enter your password"
-        value={password}
-        onChange={onPasswordChange}
-        endContent={
-          <button className="text-gray-400" type="button" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <FaEye /> : <FaEyeSlash />}
-          </button>
-        }
-      />
-      <Button className="flex w-full mt-2" size="md" onClick={handleSubmit} isLoading={loginMutation.isLoading}>
-        Submit
-      </Button>
+      <div className="flex flex-col items-center my-10">
+        <Input className="w-96" type="text" label="Username" placeholder="Enter your username" value={username} onChange={onUsernameChange} />
+        <Input
+          className="mt-2 w-96"
+          type={showPassword ? "text" : "password"}
+          label="Password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={onPasswordChange}
+          endContent={
+            <button className="text-gray-400" type="button" onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
+          }
+        />
+        <Button className="w-96 mt-2" size="md" onClick={handleSubmit} isLoading={loginMutation.isLoading}>
+          Submit
+        </Button>
+      </div>
       {loginMutation.isError && <p className="text-red-500">{loginMutation.error?.message || "Unknown error"}</p>}
     </>
   )
