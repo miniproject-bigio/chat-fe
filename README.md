@@ -51,7 +51,6 @@ You can start editing the page by modifying `/app/page.tsx`. The page auto-updat
 - framer-motion
 - next
 - next-theme
-- pg
 - react
 - react-icons
 - react-query
